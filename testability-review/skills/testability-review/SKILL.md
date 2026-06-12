@@ -1,5 +1,5 @@
 ---
-name: review
+name: testability-review
 description: Review a codebase for architectural testability — whether application logic can be exercised by fast, deterministic tests at a sound boundary. Orchestrates two stages: the style detector classifies each unit into a Style Classification Map, then the architecture reviewer applies the antipattern catalog filtered by that classification. Use when the user asks to review testability, assess the test boundary, check whether logic is reachable by fast tests, or find testability smells/antipatterns. Not for reviewing the quality of an existing test suite (a separate concern).
 disable-model-invocation: true
 ---

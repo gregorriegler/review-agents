@@ -1,6 +1,6 @@
 {
   "name": "testability-review",
-  "description": "Two-stage architectural-testability review. A style detector classifies each unit of a codebase into a Style Classification Map; an architecture reviewer then applies a style-filtered antipattern catalog and reports findings with evidence and minimal remediations. Invoke with /testability-review:review.",
+  "description": "Two-stage architectural-testability review. A style detector classifies each unit of a codebase into a Style Classification Map; an architecture reviewer then applies a style-filtered antipattern catalog and reports findings with evidence and minimal remediations. Invoke with /testability-review.",
   "version": "0.2.0",
   "author": {
     "name": "Gregor Riegler",

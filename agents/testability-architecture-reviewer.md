@@ -28,9 +28,7 @@ remediations; you do not classify style and you do not modify code.
 
 ## Input: style classification
 
-This agent runs after the testability style detector. It does not classify
-style itself — it consumes the SCM the detector emits and applies the antipattern
-catalog filtered by that classification. The SCM's shape and field semantics —
+The SCM's shape and field semantics —
 per unit, a `detected_style`, `confidence`, `internal_conflict`, `evidence`,
 `drift`, and `open_questions` — are defined in `style-classification-map.md` at
 the plugin root; read it for the field contract rather than re-deriving it here.

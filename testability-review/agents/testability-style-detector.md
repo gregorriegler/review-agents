@@ -35,7 +35,7 @@ isolate logic from infrastructure, and the choice changes how a smell is read.
 | NU | Nullables | Concrete infrastructure wrappers with `createNull()`, embedded stubs at the third-party boundary, output tracking. Sociable tests run real code with the outside disconnected. |
 | FX | Functional Effects | Logic is pure over an abstract effect (effect-as-data, tagless/MTL constraint, or reader/env capability); an interpreter runs it at the edge. |
 | TS | Transaction Script | Procedural logic organized per request/operation. A legitimate, deliberate choice for simple apps — not an absence of strategy. Testable on its own terms when the scripts are callable and don't reach straight for infrastructure. |
-| ST-00 | No discernible shape | Logic genuinely smeared across transport, data access, and framework callbacks with no organizing principle. Reserve this for real chaos — do not file a coherent Transaction Script here. |
+| BBM | Big Ball of Mud | No discernible shape: logic genuinely smeared across transport, data access, and framework callbacks with no organizing principle. Reserve this for real chaos — do not file a coherent Transaction Script here. |
 
 Notes that change the answer:
 - Combinations are normal and can be coherent. `AF + NU` is a deliberate
@@ -44,9 +44,9 @@ Notes that change the answer:
 - FX is its own thing — don't also tag it `FC` even though it keeps logic pure.
 - `FX + NU` is contradictory in spirit. If you see both, report it as a question
   for the team, not a coherent pairing.
-- TS vs ST-00 is the call you will make most often. The distinction is
+- TS vs BBM is the call you will make most often. The distinction is
   coherence, not cleanliness: a tidy, consistent per-request script style is TS;
-  the same logic with no principle behind where anything lives is ST-00.
+  the same logic with no principle behind where anything lives is BBM.
 
 ### Detection signals per style
 
@@ -80,7 +80,7 @@ Concrete discriminators to look for. Treat absence as evidence too.
   infrastructure passed in rather than reached for directly. No core/shell split,
   no owned ports, no interpreters — coherence comes from the repeated
   per-operation organization.
-- **ST-00** — none of the above hold; logic placement follows no repeated
+- **BBM** — none of the above hold; logic placement follows no repeated
   principle. Distinguish from TS by the *absence* of a deliberate, consistent
   organizing rule.
 
@@ -132,12 +132,12 @@ Emit a Style Classification Map — the handoff artifact every downstream
 reviewer consumes. Its shape, fields, and field semantics are defined in
 `style-classification-map.md` at the plugin root; produce exactly that. In short:
 lead with the repo summary (classification unit + why, overview
-table, overall strategy, ST-00 units called out first and prominently, units
+table, overall strategy, BBM units called out first and prominently, units
 flagged for human attention), then one unit entry per classification unit.
 
 Two things this stage owns and must get right:
 
-- **ST-00 is a top-level finding, not a table row.** Name every ST-00 unit in the
+- **BBM is a top-level finding, not a table row.** Name every BBM unit in the
   summary and say briefly why no organizing principle was found — the next stage
   treats it as the most valuable output, because the remediation is "choose a
   target style first," not "fix individual smells."

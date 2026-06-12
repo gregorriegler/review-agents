@@ -22,7 +22,7 @@ classification unit.
 - **Overview table** — unit → detected style(s) → confidence.
 - **Overall strategy** — `coherent` (one strategy throughout), `mixed`
   (several coherent strategies), or `none`.
-- **`ST-00` units** — every unit with no discernible style, named and called out
+- **`BBM` units** — every unit with no discernible style, named and called out
   first and prominently. This is a top-level finding, not just a table row: the
   remediation downstream is "choose a target style first," not "fix smells."
 - **Flagged for human attention** — units with low confidence, internal
@@ -33,7 +33,7 @@ classification unit.
 ```
 unit:            <name> (<path>)
 declared_style:  <from ADRs/docs/strong conventions, or "none found">
-detected_style:  <one or more of PA | FC | AF | ES | NU | FX | TS | ST-00>,
+detected_style:  <one or more of PA | FC | AF | ES | NU | FX | TS | BBM>,
                  or a list of candidate styles when signals genuinely conflict
 confidence:      high | medium | low
 internal_conflict: yes | no   # yes when the unit's own signals contradict each other
@@ -47,7 +47,7 @@ open_questions:  <what the team should resolve before a reviewer fully trusts th
 ## Field semantics (the contract)
 
 - `detected_style` — the style vocabulary is closed: `PA`, `FC`, `AF`,
-  `ES`, `NU`, `FX`, `TS`, `ST-00`. `FC` (Functional Core / FCIS) and `AF`
+  `ES`, `NU`, `FX`, `TS`, `BBM`. `FC` (Functional Core / FCIS) and `AF`
   (A-Frame) are both logic-isolated-core styles — logic with zero infrastructure
   dependency. Combinations are normal and are expressed as a list (e.g.
   `AF + NU`). Candidate styles (unresolved
@@ -63,16 +63,16 @@ open_questions:  <what the team should resolve before a reviewer fully trusts th
 - `evidence` — mandatory. Every classification cites concrete `file:loc`
   references. A unit entry with no evidence is not a classification; lower its
   confidence and state what is missing.
-- `ST-00` — reserved for genuine chaos: logic smeared across transport, data
-  access, and framework callbacks with no organizing principle. A tidy,
-  consistent per-request script style is `TS`, not `ST-00`.
+- `BBM` (Big Ball of Mud) — reserved for genuine chaos: logic smeared
+  across transport, data access, and framework callbacks with no organizing
+  principle. A tidy, consistent per-request script style is `TS`, not `BBM`.
 
 ## How consumers read it
 
 - Use the classification as given; do not re-derive it. If code contradicts
   a label, raise it under that unit's `open_questions` rather than silently
   reclassifying.
-- Treat a unit as provisional when `detected_style` is `ST-00`, `confidence`
+- Treat a unit as provisional when `detected_style` is `BBM`, `confidence`
   is `low`, or `internal_conflict` is `yes`. Provisional units still receive
   findings, but only the universal rules apply and findings are marked
   provisional with the assumed target style stated.

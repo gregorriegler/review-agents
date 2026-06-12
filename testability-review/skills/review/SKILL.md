@@ -33,10 +33,10 @@ Pass the same target to both stages so they classify and review the same code.
 produce a Style Classification Map. Capture its full output — that is the SCM.
 
 **2. Surface the classification.** Before reviewing, show the user the SCM's repo
-summary, especially **ST-00 units** (no discernible style) and **low-confidence /
+summary, especially **BBM units** (no discernible style) and **low-confidence /
 internal-conflict** units. These are valuable on their own: for them the headline
 recommendation is "choose a target style first," not "fix individual smells." If
-the *entire* target is ST-00 or uniformly low-confidence, say so plainly and ask
+the *entire* target is BBM or uniformly low-confidence, say so plainly and ask
 whether to proceed to a provisional review or stop at the classification.
 
 **3. Review (stage 2).** Spawn the reviewer

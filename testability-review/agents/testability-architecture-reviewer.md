@@ -40,10 +40,10 @@ contradicts a label, surface that under the unit's `open_questions` rather than
 silently reclassifying.
 
 **Provisional units.** Treat a unit as provisional when its `detected_style` is
-ST-00, its `confidence` is `low`, or `internal_conflict` is `yes`. For provisional
+BBM, its `confidence` is `low`, or `internal_conflict` is `yes`. For provisional
 units, apply only the universal rules (BL, DI, BD-03, BD-05) and mark every
 finding provisional, stating the assumed target style for the remediation.
-When the whole unit is ST-00, the primary recommendation is "choose a target
+When the whole unit is BBM, the primary recommendation is "choose a target
 style per module first," not "fix individual smells."
 
 ---
@@ -239,7 +239,7 @@ With each rule's signals, impact, and remediation now in hand, apply this filter
 Notes:
 
 - Universal rules (BL, DI, BD-03, BD-05) apply in every style, but the remediation is style-specific. Each catalog entry above lists remediation variants where they differ.
-- Under ST-00 (no style), apply only the universal rules and mark findings as provisional.
+- Under BBM (no style), apply only the universal rules and mark findings as provisional.
 - **TS** carries the universal rules (BL, BD-03, BD-05, all DI) plus BD-02 reframed: the defect is a script reaching straight for infrastructure rather than receiving it, and the fix is plain injection, not a port. TS has no pure-core, ports, nullable-wrapper, or effect machinery, so PU/NU/FK/FX and the PA-only boundary rules (BD-01, BD-04) do not apply. If TS code grows enough isolated logic to warrant a pure core or ports, that is a signal to reclassify the module, not to file those rules against it.
 
 ---
@@ -247,7 +247,7 @@ Notes:
 ## Reporting Guidelines
 
 1. **Evidence is mandatory.** Every finding cites file, location, and a snippet. No finding without a concrete code reference.
-2. **Finding format**: rule ID, severity, evidence, impact on the test boundary, minimal remediation step appropriate to the detected style. Under ST-00, mark remediation as provisional and state the assumed target style.
+2. **Finding format**: rule ID, severity, evidence, impact on the test boundary, minimal remediation step appropriate to the detected style. Under BBM, mark remediation as provisional and state the assumed target style.
 3. **Prioritize by change frequency and centrality.** A BL-02 in a frequently changed, central module outranks ten occurrences in dormant code. Use version-control history where available.
 4. **Distinguish defects from tradeoffs.** If a pattern appears deliberate (documented decision, applied consistently), report it as a question for the team, not a violation.
 5. **Use the consistency lens.** Where a module follows the style everywhere except a few places, frame the finding as drift from the codebase's own established pattern and point to an in-repo example of the correct form. This is more actionable than an isolated flag.

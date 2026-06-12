@@ -17,7 +17,7 @@ Both stages ship in this plugin as auto-registered subagents:
 - `testability-architecture-reviewer` (stage 2) — consumes the SCM
 
 The SCM (Style Classification Map) is the handoff contract between them, defined in
-`style-classification-map.md` at the plugin root.
+`${CLAUDE_PLUGIN_ROOT}/style-classification-map.md`.
 
 ## Target
 

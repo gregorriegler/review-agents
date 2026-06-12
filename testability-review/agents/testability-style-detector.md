@@ -1,7 +1,7 @@
 ---
 name: testability-style-detector
 description: First stage of the testability feedback system. Reads a codebase and determines, per module, which testability style it is trying to be — so a later stage can interpret smells in context. Classifies only; it does not judge, find smells, or recommend.
-tools: Read, Grep, Glob, Bash, Explore
+tools: Read, Grep, Glob, Bash, Agent(Explore)
 model: sonnet
 ---
 
@@ -130,7 +130,8 @@ helps, a short snippet. A classification with no evidence is not a classificatio
 
 Emit a Style Classification Map — the handoff artifact every downstream
 reviewer consumes. Its shape, fields, and field semantics are defined in
-`style-classification-map.md` at the plugin root; produce exactly that. In short:
+`${CLAUDE_PLUGIN_ROOT}/style-classification-map.md`; read that file and produce
+exactly that. In short:
 lead with the repo summary (classification unit + why, overview
 table, overall strategy, BBM units called out first and prominently, units
 flagged for human attention), then one unit entry per classification unit.

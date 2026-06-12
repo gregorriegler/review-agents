@@ -52,36 +52,9 @@ style per module first," not "fix individual smells."
 
 ## Rule application
 
-### Applicability matrix
-
-| Rule | PA | LC-strict | LC-aframe | ES | NU | FX | TS |
-|------|----|-----------|-----------|----|----|----|----|
-| BL-01..05 | yes | yes | yes | yes | yes | yes | yes (remediation: extract into a callable script/operation the transport handler invokes) |
-| BD-01 | yes | no | no | no | no | no (effect-type analog is FX-01) | no |
-| BD-02 | yes | yes (as "logic imports infrastructure") | yes (same) | yes (same) | no (wrappers are concrete; see NU-01) | no (see FX-01) | yes (as "script reaches straight for infrastructure"; remediation: inject it so the script stays callable) |
-| BD-03 | yes | yes | yes | yes | yes | yes | yes |
-| BD-04 | yes | no | no | no | no | no (see FX-04) | no |
-| BD-05 | yes | yes | yes | yes | yes | yes | yes |
-| DI-01 | yes | yes | yes | yes | yes (inside logic; wrappers themselves may construct clients) | yes (remediation: request the capability or return an effect; build the interpreter at the edge) | yes (remediation: pass infrastructure into the script) |
-| DI-02 | yes | yes | yes | yes | yes | yes | yes |
-| DI-03 | yes | yes | yes | yes | yes | yes | yes |
-| DI-04 | yes | yes | yes | yes | yes | yes (remediation: provide time and randomness as capabilities, supplied by the test interpreter) | yes |
-| PU-01 | no | yes | encouraged, not a finding | yes | no | yes (interpreting or running effects mid-computation) | no |
-| PU-02 | no | yes (stricter: branching in shell) | yes | no | no | no | no |
-| PU-03 | no | no | no | yes | no | no (FX analog is FX-03) | no |
-| NU-01..07 | no | no | no | no | yes | no | no |
-| FK-01..02 | yes | no | no | no | no | no (FX analog is FX-05 and FX-06) | no |
-| FX-01..06 | no | no | no | no | no | yes | no |
-
-Notes:
-
-- Universal rules (BL, DI, BD-03, BD-05) apply in every style, but the remediation is style-specific. Each entry below lists remediation variants where they differ.
-- Under ST-00 (no style), apply only the universal rules and mark findings as provisional.
-- **TS** carries the universal rules (BL, BD-03, BD-05, all DI) plus BD-02 reframed: the defect is a script reaching straight for infrastructure rather than receiving it, and the fix is plain injection, not a port. TS has no pure-core, ports, nullable-wrapper, or effect machinery, so PU/NU/FK/FX and the PA-only boundary rules (BD-01, BD-04) do not apply. If TS code grows enough isolated logic to warrant a pure core or ports, that is a signal to reclassify the module, not to file those rules against it.
-
 ### Catalog
 
-Each finding must include: rule ID, severity, evidence (file, location, snippet), impact on the test boundary, and a minimal remediation step (the smallest change that creates a seam, never a rewrite).
+Each entry below defines a rule's signals, impact on the test boundary, and minimal remediation. See Reporting Guidelines for the finding format every reported violation must follow.
 
 #### BL: Misplaced business logic (universal)
 
@@ -241,6 +214,35 @@ Each finding must include: rule ID, severity, evidence (file, location, snippet)
 - Signals: no contract tests proving the test interpreter and the real interpreter agree on behavior.
 - Impact: fast tests pass while real interpretation diverges. Mirrors FK-02 for PA.
 - Remediation: add a shared contract suite run against both the test and real interpreters.
+
+### Applicability matrix
+
+With each rule's signals, impact, and remediation now in hand, apply this filter per unit: scan the column for the unit's `detected_style` and treat every `yes` as a live rule.
+
+| Rule | PA | LC-strict | LC-aframe | ES | NU | FX | TS |
+|------|----|-----------|-----------|----|----|----|----|
+| BL-01..05 | yes | yes | yes | yes | yes | yes | yes (remediation: extract into a callable script/operation the transport handler invokes) |
+| BD-01 | yes | no | no | no | no | no (effect-type analog is FX-01) | no |
+| BD-02 | yes | yes (as "logic imports infrastructure") | yes (same) | yes (same) | no (wrappers are concrete; see NU-01) | no (see FX-01) | yes (as "script reaches straight for infrastructure"; remediation: inject it so the script stays callable) |
+| BD-03 | yes | yes | yes | yes | yes | yes | yes |
+| BD-04 | yes | no | no | no | no | no (see FX-04) | no |
+| BD-05 | yes | yes | yes | yes | yes | yes | yes |
+| DI-01 | yes | yes | yes | yes | yes (inside logic; wrappers themselves may construct clients) | yes (remediation: request the capability or return an effect; build the interpreter at the edge) | yes (remediation: pass infrastructure into the script) |
+| DI-02 | yes | yes | yes | yes | yes | yes | yes |
+| DI-03 | yes | yes | yes | yes | yes | yes | yes |
+| DI-04 | yes | yes | yes | yes | yes | yes (remediation: provide time and randomness as capabilities, supplied by the test interpreter) | yes |
+| PU-01 | no | yes | encouraged, not a finding | yes | no | yes (interpreting or running effects mid-computation) | no |
+| PU-02 | no | yes (stricter: branching in shell) | yes | no | no | no | no |
+| PU-03 | no | no | no | yes | no | no (FX analog is FX-03) | no |
+| NU-01..07 | no | no | no | no | yes | no | no |
+| FK-01..02 | yes | no | no | no | no | no (FX analog is FX-05 and FX-06) | no |
+| FX-01..06 | no | no | no | no | no | yes | no |
+
+Notes:
+
+- Universal rules (BL, DI, BD-03, BD-05) apply in every style, but the remediation is style-specific. Each catalog entry above lists remediation variants where they differ.
+- Under ST-00 (no style), apply only the universal rules and mark findings as provisional.
+- **TS** carries the universal rules (BL, BD-03, BD-05, all DI) plus BD-02 reframed: the defect is a script reaching straight for infrastructure rather than receiving it, and the fix is plain injection, not a port. TS has no pure-core, ports, nullable-wrapper, or effect machinery, so PU/NU/FK/FX and the PA-only boundary rules (BD-01, BD-04) do not apply. If TS code grows enough isolated logic to warrant a pure core or ports, that is a signal to reclassify the module, not to file those rules against it.
 
 ---
 

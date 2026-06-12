@@ -59,12 +59,12 @@ Each entry below defines a rule's signals, impact on the test boundary, and mini
 **BL-01 Logic in controllers/handlers**
 - Signals: conditionals, calculations, or branching on domain state in transport-layer code (HTTP controllers, message handlers, UI event handlers).
 - Impact: logic only reachable through slow, broad tests.
-- Remediation: extract into a use case or service inside the application layer. PA: behind the application boundary. LC: into the logic layer, called by the coordinator. ES: into a decide function. NU: into application logic that depends only on nullable wrappers.
+- Remediation: extract into a use case or service inside the application layer. PA: behind the application boundary. FC/AF: into the logic layer, called by the coordinator. ES: into a decide function. NU: into application logic that depends only on nullable wrappers.
 
 **BL-02 Logic in data access**
 - Signals: business rules in repositories; SQL performing domain calculations or filtering by business policy beyond plain retrieval.
 - Impact: rules untestable without a database.
-- Remediation: keep queries dumb, move the decision out. PA: into the use case behind the port. LC: into a pure or isolated function the coordinator calls with the fetched data. ES: into decide. NU: into application logic above the wrapper.
+- Remediation: keep queries dumb, move the decision out. PA: into the use case behind the port. FC/AF: into a pure or isolated function the coordinator calls with the fetched data. ES: into decide. NU: into application logic above the wrapper.
 
 **BL-03 Decisions in mappers**
 - Signals: format or model conversion code that branches on business meaning.
@@ -87,12 +87,12 @@ Each entry below defines a rule's signals, impact on the test boundary, and mini
 
 **BD-02 Inverted dependency direction**
 - Signals: application or logic modules importing infrastructure modules directly.
-- Remediation: PA: invert via a port. LC/ES: remove the dependency entirely; the coordinator or shell supplies values. NU: not applicable as stated; see NU-01 for the equivalent.
+- Remediation: PA: invert via a port. FC/AF/ES: remove the dependency entirely; the coordinator or shell supplies values. NU: not applicable as stated; see NU-01 for the equivalent.
 
 **BD-03 Incomplete boundary: ambient infrastructure** (universal)
 - Signals: direct calls from application logic to system clock, random number generators, environment variables, file system, or global configuration.
 - Impact: nondeterminism and hidden dependencies inside the test boundary.
-- Remediation: PA: inject an abstraction. LC-strict: pass the value in as a parameter. LC-aframe: coordinator fetches and passes the value, or logic receives it via the sandwich. ES: pass time/randomness into decide as part of the command or state. NU: create a nullable clock/random wrapper.
+- Remediation: PA: inject an abstraction. FC: pass the value in as a parameter. AF: coordinator fetches and passes the value, or logic receives it via the sandwich. ES: pass time/randomness into decide as part of the command or state. NU: create a nullable clock/random wrapper.
 
 **BD-04 Ports at the wrong altitude** (PA only)
 - Signals: interfaces mirroring infrastructure shape (executeQuery, sendRequest) instead of speaking application language (findOverdueOrders, notifyCustomer); or one interface per database table.
@@ -107,7 +107,7 @@ Each entry below defines a rule's signals, impact on the test boundary, and mini
 
 **DI-01 Direct instantiation of infrastructure inside logic**
 - Signals: new HttpClient(), new DbContext(), client construction inside application code.
-- Remediation: PA: inject the port. LC: logic should not need it at all; lift the call into the coordinator. NU: instantiate the wrapper at the edge; application code receives it.
+- Remediation: PA: inject the port. FC/AF: logic should not need it at all; lift the call into the coordinator. NU: instantiate the wrapper at the edge; application code receives it.
 
 **DI-02 Global or singleton state accessed from application logic**
 - Signals: static mutable state, singletons fetched from within logic.
@@ -119,16 +119,16 @@ Each entry below defines a rule's signals, impact on the test boundary, and mini
 
 **DI-04 Static infrastructure calls**
 - Signals: DateTime.Now, static config access, static clients invoked from logic.
-- Remediation: same per-style options as BD-03. Note the LC remediation is "pass the value in," not "inject an abstraction."
+- Remediation: same per-style options as BD-03. Note the FC/AF remediation is "pass the value in," not "inject an abstraction."
 
 #### PU: Purity and isolation violations
 
-**PU-01 IO inside core functions** (LC-strict, ES)
+**PU-01 IO inside core functions** (FC, ES)
 - Signals: a supposedly pure function fetching data, persisting, logging with side effects, or calling infrastructure mid-computation.
-- Remediation: LC-strict: restructure as a logic sandwich (fetch first, compute purely, write after). ES: move the IO out of decide; gather required state before invoking it.
+- Remediation: FC: restructure as a logic sandwich (fetch first, compute purely, write after). ES: move the IO out of decide; gather required state before invoking it.
 
-**PU-02 Thinking coordinator / branching shell** (LC)
-- Signals: LC-aframe: coordinator code containing conditionals on domain state beyond simple orchestration (which result to write where is orchestration; whether the order qualifies is logic). LC-strict, stricter form: any nontrivial branching in the shell.
+**PU-02 Thinking coordinator / branching shell** (FC, AF)
+- Signals: AF: coordinator code containing conditionals on domain state beyond simple orchestration (which result to write where is orchestration; whether the order qualifies is logic). FC, stricter form: any nontrivial branching in the shell.
 - Impact: untested or slow-tested decisions accumulate in the layer designed to stay trivial.
 - Remediation: push the decision into the logic layer; the coordinator asks logic and acts on the answer.
 
@@ -217,8 +217,8 @@ Each entry below defines a rule's signals, impact on the test boundary, and mini
 
 With each rule's signals, impact, and remediation now in hand, apply this filter per unit: scan the column for the unit's `detected_style` and treat every `yes` as a live rule.
 
-| Rule | PA | LC-strict | LC-aframe | ES | NU | FX | TS |
-|------|----|-----------|-----------|----|----|----|----|
+| Rule | PA | FC | AF | ES | NU | FX | TS |
+|------|----|----|----|----|----|----|----|
 | BL-01..05 | yes | yes | yes | yes | yes | yes | yes (remediation: extract into a callable script/operation the transport handler invokes) |
 | BD-01 | yes | no | no | no | no | no (effect-type analog is FX-01) | no |
 | BD-02 | yes | yes (as "logic imports infrastructure") | yes (same) | yes (same) | no (wrappers are concrete; see NU-01) | no (see FX-01) | yes (as "script reaches straight for infrastructure"; remediation: inject it so the script stays callable) |

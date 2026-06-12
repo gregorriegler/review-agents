@@ -22,13 +22,15 @@ codebase, what testability shape is it trying to be?
 
 ## The styles you recognize
 
-Each is a coherent way to make application logic testable. Recognize the shape;
-name the variant where it changes interpretation.
+Each is a coherent way to make application logic testable. Recognize the shape
+and name the style precisely — `FC` and `AF` are distinct styles even though both
+isolate logic from infrastructure, and the choice changes how a smell is read.
 
 | ID | Style | Core shape |
 |----|-------|------------|
 | PA | Ports & Adapters | Logic calls infrastructure only through ports it owns; adapters implement them. |
-| LC | Logic-Isolated Core | Logic has zero dependency on infrastructure. `LC-strict` = pure functions over immutable values, thin shell. `LC-aframe` = stateful logic layer, thin coordinator on top, logic and infrastructure are peers that don't know each other. |
+| FC | Functional Core (FCIS) | Logic-isolated core, pure form. Pure functions over immutable values, thin shell. Logic makes decisions, the shell does effects (Bernhardt's Functional Core / Imperative Shell). |
+| AF | A-Frame | Logic-isolated core, stateful form. Stateful logic layer, thin coordinator on top; logic and infrastructure are peers that don't know each other. |
 | ES | Event Sourcing | Pure `decide`/`evolve` over folded state; effects at persistence/projection. |
 | NU | Nullables | Concrete infrastructure wrappers with `createNull()`, embedded stubs at the third-party boundary, output tracking. Sociable tests run real code with the outside disconnected. |
 | FX | Functional Effects | Logic is pure over an abstract effect (effect-as-data, tagless/MTL constraint, or reader/env capability); an interpreter runs it at the edge. |
@@ -36,10 +38,10 @@ name the variant where it changes interpretation.
 | ST-00 | No discernible shape | Logic genuinely smeared across transport, data access, and framework callbacks with no organizing principle. Reserve this for real chaos — do not file a coherent Transaction Script here. |
 
 Notes that change the answer:
-- Combinations are normal and can be coherent. `LC-aframe + NU` is a deliberate
+- Combinations are normal and can be coherent. `AF + NU` is a deliberate
   pairing. `ES + FX` is coherent. Classify combinations explicitly rather than
   forcing one label.
-- FX is its own thing — don't also tag it LC even though it keeps logic pure.
+- FX is its own thing — don't also tag it `FC` even though it keeps logic pure.
 - `FX + NU` is contradictory in spirit. If you see both, report it as a question
   for the team, not a coherent pairing.
 - TS vs ST-00 is the call you will make most often. The distinction is
@@ -53,10 +55,11 @@ Concrete discriminators to look for. Treat absence as evidence too.
 - **PA** — interfaces owned by the application layer, named in application
   language; adapter implementations in infrastructure modules; DI wiring at a
   composition root; in-memory fakes for ports in test code.
-- **LC** — logic modules with no outbound infrastructure dependency; thin
-  coordinators that fetch, call logic with plain values, then write.
-  *LC-strict:* pure functions, immutable values, near branch-free shell.
-  *LC-aframe:* stateful domain objects in the logic layer; logic-sandwich or
+- **FC / AF** (logic-isolated core) — logic modules with no outbound
+  infrastructure dependency; thin coordinators that fetch, call logic with plain
+  values, then write.
+  *FC:* pure functions, immutable values, near branch-free shell.
+  *AF:* stateful domain objects in the logic layer; logic-sandwich or
   traffic-cop patterns in coordinators.
 - **ES** — `decide`/`evolve` (or equivalents); event streams as source of truth;
   state rebuilt by folding events; projections and process managers as separate
@@ -98,7 +101,7 @@ candidate style — dependency direction, ports/adapters, pure cores,
 per-request scripts, infrastructure reached directly from logic. Look for what
 *argues against* a style as hard as what argues for it.
 
-**4. Classify.** Assign style(s) + variant + confidence, each anchored to
+**4. Classify.** Assign style(s) + confidence, each anchored to
 evidence. When signals genuinely conflict, report multiple candidate styles
 with the evidence for each — do not collapse them to one.
 

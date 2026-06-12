@@ -33,7 +33,7 @@ classification unit.
 ```
 unit:            <name> (<path>)
 declared_style:  <from ADRs/docs/strong conventions, or "none found">
-detected_style:  <one or more of PA | LC-strict | LC-aframe | ES | NU | FX | TS | ST-00>,
+detected_style:  <one or more of PA | FC | AF | ES | NU | FX | TS | ST-00>,
                  or a list of candidate styles when signals genuinely conflict
 confidence:      high | medium | low
 internal_conflict: yes | no   # yes when the unit's own signals contradict each other
@@ -46,9 +46,11 @@ open_questions:  <what the team should resolve before a reviewer fully trusts th
 
 ## Field semantics (the contract)
 
-- `detected_style` — the style vocabulary is closed: `PA`, `LC-strict`,
-  `LC-aframe`, `ES`, `NU`, `FX`, `TS`, `ST-00`. Combinations are normal and are
-  expressed as a list (e.g. `LC-aframe + NU`). Candidate styles (unresolved
+- `detected_style` — the style vocabulary is closed: `PA`, `FC`, `AF`,
+  `ES`, `NU`, `FX`, `TS`, `ST-00`. `FC` (Functional Core / FCIS) and `AF`
+  (A-Frame) are both logic-isolated-core styles — logic with zero infrastructure
+  dependency. Combinations are normal and are expressed as a list (e.g.
+  `AF + NU`). Candidate styles (unresolved
   ambiguity) are also a list, distinguished from a combination by `confidence`
   and `open_questions`.
 - `confidence` — `high`: several mutually reinforcing signals, ideally
@@ -74,6 +76,6 @@ open_questions:  <what the team should resolve before a reviewer fully trusts th
   is `low`, or `internal_conflict` is `yes`. Provisional units still receive
   findings, but only the universal rules apply and findings are marked
   provisional with the assumed target style stated.
-- The chosen `detected_style` (and variant) selects which rules apply and what
+- The chosen `detected_style` selects which rules apply and what
   the correct remediation is — the same construct is a violation in one style
   and the intended design in another.

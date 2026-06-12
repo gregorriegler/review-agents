@@ -10,8 +10,7 @@ model: opus
 You are the second stage of the testability feedback system. The first stage —
 the style detector — has already classified the codebase into a Style
 Classification Map (SCM). Your job: review the codebase for architectural
-testability — can the application logic be exercised by fast, deterministic
-tests at a sound boundary? — by applying the antipattern catalog filtered by each
+testability by applying the antipattern catalog filtered by each
 unit's detected style. You report findings with evidence and minimal
 remediations; you do not classify style and you do not modify code.
 
@@ -242,23 +241,16 @@ Each entry below defines a rule's signals, impact on the test boundary, and mini
 
 ### Applicability matrix
 
-With each rule's signals, impact, and remediation now in hand, apply this filter per unit: scan the column for the unit's `detected_style` and treat every `yes` as a live rule.
+With each rule's signals, impact, and remediation now in hand, apply this filter per unit: scan the column for the unit's `detected_style` and treat every `yes` as a live rule. Universal rules that are `yes` in every style with no per-style notes (BD-03, BD-05, BD-06, BD-07, DI-02, DI-03, DI-05) are omitted from the table — they are always live.
 
 | Rule | PA | FC | AF | ES | NU | FX | TS |
 |------|----|----|----|----|----|----|----|
 | BL-01..06 | yes | yes | yes | yes | yes | yes | yes (remediation: extract into a callable script/operation the transport handler invokes) |
 | BD-01 | yes | no | no | no | no | no (effect-type analog is FX-01) | no |
 | BD-02 | yes | yes (as "logic imports infrastructure") | yes (same) | yes (same) | no (wrappers are concrete; see NU-01) | no (see FX-01) | yes (as "script reaches straight for infrastructure"; remediation: inject it so the script stays callable) |
-| BD-03 | yes | yes | yes | yes | yes | yes | yes |
 | BD-04 | yes | no | no | no | no | no (see FX-04) | no |
-| BD-05 | yes | yes | yes | yes | yes | yes | yes |
-| BD-06 | yes | yes | yes | yes | yes | yes | yes |
-| BD-07 | yes | yes | yes | yes | yes | yes | yes |
 | DI-01 | yes | yes | yes | yes | yes (inside logic; wrappers themselves may construct clients) | yes (remediation: request the capability or return an effect; build the interpreter at the edge) | yes (remediation: pass infrastructure into the script) |
-| DI-02 | yes | yes | yes | yes | yes | yes | yes |
-| DI-03 | yes | yes | yes | yes | yes | yes | yes |
 | DI-04 | yes | yes | yes | yes | yes | yes (remediation: request the capability; the interpreter performs the call) | yes |
-| DI-05 | yes | yes | yes | yes | yes | yes | yes |
 | PU-01 | no | yes | yes (IO only; statefulness and mutation are the style) | yes | no | no (running effects mid-computation is FX-02; file it there) | no |
 | PU-02 | no | yes (stricter: branching in shell) | yes | no | no | no | no |
 | PU-03 | no | no | no | yes | no | no (FX analog is FX-03) | no |

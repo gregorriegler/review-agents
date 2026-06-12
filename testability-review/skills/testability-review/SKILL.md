@@ -6,9 +6,8 @@ disable-model-invocation: true
 
 # Testability Review
 
-Orchestrates the two-stage testability feedback system over a target codebase and
-presents a single consolidated report. Stage 1 classifies; stage 2 reviews against
-that classification. The stages must run in order — the reviewer's findings are
+Stage 1 classifies; stage 2 reviews against that classification, and the result
+is presented as a single consolidated report. The stages must run in order — the reviewer's findings are
 meaningless without the classification, because the same construct is a violation
 in one style and the intended design in another.
 

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "gregor-local",
+  "description": "Gregor's local plugin marketplace",
+  "owner": {
+    "name": "Gregor Riegler",
+    "email": "rieglerg85@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "testability-review",
+      "description": "Two-stage architectural-testability review: a style detector classifies each unit into a Style Classification Map, then an architecture reviewer applies a style-filtered antipattern catalog and reports findings with evidence and minimal remediations.",
+      "author": {
+        "name": "Gregor Riegler"
+      },
+      "category": "code-review",
+      "source": "./testability-review"
+    }
+  ]
+}

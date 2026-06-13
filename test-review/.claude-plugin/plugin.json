@@ -1,0 +1,10 @@
+{
+  "name": "test-review",
+  "description": "Two-stage test-suite review. A test-style detector classifies each test cluster into a Test Style Map (boundary, assertion strategy, double policy, paradigm, construction idiom); a smell reviewer then applies a style-filtered smell catalog and reports findings with evidence and minimal, in-idiom remediations. Invoke with /test-review.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Gregor Riegler",
+    "email": "rieglerg85@gmail.com"
+  },
+  "keywords": ["tests", "test-smells", "code-review", "test-style"]
+}

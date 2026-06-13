@@ -15,6 +15,15 @@
       },
       "category": "code-review",
       "source": "./testability-review"
+    },
+    {
+      "name": "modularity-review",
+      "description": "Single-stage modularity review: a reviewer scores coupling between pieces of code along two axes — Strength (how much they know about each other) and Distance (how far apart they sit) — and reports the tangled spots where both are high, with minimal seams to reduce Distance first, then Strength.",
+      "author": {
+        "name": "Gregor Riegler"
+      },
+      "category": "code-review",
+      "source": "./modularity-review"
     }
   ]
 }

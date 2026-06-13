@@ -1,0 +1,10 @@
+{
+  "name": "modularity-review",
+  "description": "Single-stage modularity review. A reviewer scores coupling between pieces of code along two axes — Strength (how much they know about each other) and Distance (how far apart they sit in the structure) — and reports the tangled spots where both are high, with minimal seams to reduce Distance or Strength. Ships the modularity-reviewer subagent; ask to review modularity to spawn it.",
+  "version": "0.1.1",
+  "author": {
+    "name": "Gregor Riegler",
+    "email": "rieglerg85@gmail.com"
+  },
+  "keywords": ["modularity", "coupling", "cohesion", "code-review", "architecture"]
+}

@@ -24,6 +24,15 @@
       },
       "category": "code-review",
       "source": "./modularity-review"
+    },
+    {
+      "name": "abstraction-review",
+      "description": "Single-stage abstraction review: a reviewer examines the boundaries meant to hide a decision — interfaces, wrappers, service layers, adapters, facades — and flags abstractions that pass through without changing the language, leak internals to callers, sprawl across responsibilities, or impose ceremony on simple cases.",
+      "author": {
+        "name": "Gregor Riegler"
+      },
+      "category": "code-review",
+      "source": "./abstraction-review"
     }
   ]
 }

@@ -1,0 +1,10 @@
+{
+  "name": "abstraction-review",
+  "description": "Single-stage abstraction review. A reviewer examines the boundaries meant to hide a decision — interfaces, wrappers, service layers, adapters, facades — and flags abstractions that fail to change the language at their boundary, leak internals to callers, sprawl across responsibilities, or impose ceremony on simple cases. Ships the abstraction-reviewer subagent; ask to review abstractions to spawn it.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Gregor Riegler",
+    "email": "rieglerg85@gmail.com"
+  },
+  "keywords": ["abstraction", "encapsulation", "interface-design", "code-review", "architecture"]
+}

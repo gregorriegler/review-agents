@@ -10,7 +10,7 @@ approval-tests cluster loads four files (`universal` + `construction` + `approva
 
 | Load when… | File | Covers |
 |------------|------|--------|
-| always | `universal.md` | naming, AAA structure, flow control, value-object mocking, duplicate doubles, monkeypatch, base assertions (missing/tautology/vague/cherry-pick, anonymous-expected, boolean-equality-assert), base determinism (time/random, sleep, infrastructure), shared state, ignored, and test-data construction (off-idiom construction, magic-value vs. defaulting builders, irrelevant-detail, verbose, the in-idiom remediation rule) |
+| always | `universal.md` | naming, AAA structure, illegible-intent, flow control, value-object mocking, duplicate doubles, monkeypatch, base assertions (missing/tautology/vague/cherry-pick, anonymous-expected, boolean-equality-assert), base determinism (time/random, sleep, infrastructure), shared state, ignored, and test-data construction (off-idiom construction, magic-value vs. defaulting builders, irrelevant-detail, verbose, the in-idiom remediation rule) |
 | `double_policy` ∈ {none, sociable, solitary} | `doubles.md` | over-mock, mock-over-fake, too-many-mocks, spy-on-internals, over-specified-verify, mock-driven tautology — read per policy |
 | `double_policy` = nullable | `nullable.md` | mock-over-null; exemptions for output tracking, `createNull()` data, nulled infrastructure |
 | `assertion_strategy` ∋ VERIFY | `approval.md` | the VERIFY-specific block + suppressions (missing-assert, vague-assert, cherry-pick) |

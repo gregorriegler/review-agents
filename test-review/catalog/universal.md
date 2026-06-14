@@ -22,6 +22,9 @@ when that happens, the style file wins.
   *(PROPERTY refines this — see `property.md`.)*
 - **SMELL-nesting** — Excessive nesting or indentation that harms readability.
 - **SMELL-mega-test** — Multiple unrelated behaviors asserted in one test. Split.
+- **SMELL-illegible-intent** — The test doesn't tell its story: reading it, you
+  can't see what behavior is protected or why. It reads as a sequence of operations
+  rather than a statement of behavior.
 
 ## Test doubles (data)
 

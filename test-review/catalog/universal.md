@@ -22,24 +22,13 @@ when that happens, the style file wins.
   *(PROPERTY refines this — see `property.md`.)*
 - **SMELL-nesting** — Excessive nesting or indentation that harms readability.
 - **SMELL-mega-test** — Multiple unrelated behaviors asserted in one test. Split.
-- **SMELL-illegible-intent** — The capstone, whole-test smell, and it is about the
-  **body** of the test, not its name (the name is `SMELL-its-no-sentence`'s
-  concern). A reader following the test body from arrange through assert cannot tell
-  *what behavior is protected or why*: the cause-and-effect link between the `when`
-  and the `then` isn't legible — the asserted outcome doesn't visibly follow from
-  the exercised input. The body reads as a sequence of operations rather than a
-  statement of behavior, even though every line may be individually fine (clean AAA,
-  no magic values). A correct, behavior-stating *name* does not clear this finding —
-  the story has to be legible in the body itself. **Default to NOT flagging — this
-  is a high bar.** Flag only when *both* hold: (1) intent genuinely cannot be
-  reconstructed from the test body by itself, and (2) no body-level local smell
-  already explains why — if `SMELL-anonymous-expected`, `SMELL-irrelevant-detail`,
-  `SMELL-mega-test`, or a construction smell already covers the cause, report *that*
-  and stop; do not stack this on top. Report at most once per test, naming the
-  specific question the reader is left with ("can't tell why this input yields this
-  status"), not as a generic "hard to read." Remediation works on the body: tie the
-  `expected` to the input, surface the one input that drives the outcome, or make
-  the exercised behavior explicit in the act step — never "add comments."
+- **SMELL-illegible-intent** — The test body doesn't tell its story: reading it,
+  you can't see what behavior is protected or why, because the asserted outcome
+  doesn't visibly follow from the exercised input. It reads as a sequence of
+  operations, not a statement of behavior. High bar — flag only when intent truly
+  can't be reconstructed from the body, naming the question the reader is left with.
+  Remediation: tie the `expected` to the input and surface the input that drives the
+  outcome — never "add comments."
 
 ## Test doubles (data)
 

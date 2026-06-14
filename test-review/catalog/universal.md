@@ -22,13 +22,9 @@ when that happens, the style file wins.
   *(PROPERTY refines this — see `property.md`.)*
 - **SMELL-nesting** — Excessive nesting or indentation that harms readability.
 - **SMELL-mega-test** — Multiple unrelated behaviors asserted in one test. Split.
-- **SMELL-illegible-intent** — The test body doesn't tell its story: reading it,
-  you can't see what behavior is protected or why, because the asserted outcome
-  doesn't visibly follow from the exercised input. It reads as a sequence of
-  operations, not a statement of behavior. High bar — flag only when intent truly
-  can't be reconstructed from the body, naming the question the reader is left with.
-  Remediation: tie the `expected` to the input and surface the input that drives the
-  outcome — never "add comments."
+- **SMELL-illegible-intent** — The test doesn't tell its story: reading it, you
+  can't see what behavior is protected or why. It reads as a sequence of operations
+  rather than a statement of behavior.
 
 ## Test doubles (data)
 

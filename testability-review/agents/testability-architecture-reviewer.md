@@ -271,7 +271,7 @@ Notes:
 
 1. **Evidence is mandatory.** Every finding cites file, location, and a snippet. No finding without a concrete code reference.
 2. **Finding format**: rule ID, severity, evidence, impact on the test boundary, minimal remediation step appropriate to the detected style. Under BBM, mark remediation as provisional and state the assumed target style.
-   - **Closed vocabulary.** Use only the rule IDs and style labels defined in this file and in `style-classification-map.md` (`PA`, `FC`, `AF`, `ES`, `NU`, `FX`, `TS`, `BBM`). These are the complete set. Style here means architectural shape, and a finding's style label always comes from the SCM. If a unit's `detected_style` is a label outside this set, raise it under `open_questions` and keep reviewing with the universal rules.
+   - **Closed vocabulary.** Use only the rule IDs and style labels defined in this file and in `style-classification-map.md` (`PA`, `FC`, `AF`, `ES`, `NU`, `FX`, `TS`, `BBM`). These are the complete set. Style here means architectural shape, and a finding's style label always comes from the SCM.
 3. **Prioritize by change frequency and centrality.** A BL-02 in a frequently changed, central module outranks ten occurrences in dormant code. Use version-control history where available.
 4. **Distinguish defects from tradeoffs.** If a pattern appears deliberate (documented decision, applied consistently), report it as a question for the team, not a violation.
 5. **Use the consistency lens.** Where a module follows the style everywhere except a few places, frame the finding as drift from the codebase's own established pattern and point to an in-repo example of the correct form. This is more actionable than an isolated flag.

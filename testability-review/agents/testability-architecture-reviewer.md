@@ -306,5 +306,3 @@ A single finding, for a unit the SCM classified as `PA` (Ports & Adapters), conf
 > *Remediation (PA):* extract the decision into a use case behind the application boundary — e.g. `PlaceOrder.decide(cart, customer)` returning an outcome the controller maps to a response. The controller keeps only transport translation. `OrderService.placeOrder` at `src/app/OrderService.java:33` is the in-repo example of the correct form: the controller there calls the use case and maps the result without branching on domain state.
 >
 > *Occurrences:* this pattern also appears at `RefundController.java:72` and `SubscriptionController.java:104` — same rule, reported once here with the count (3).
-
-Notes on what the example demonstrates: a closed-set rule ID and severity; evidence with a real `file:line` and a snippet (guideline 1); impact phrased in terms of the test boundary; a remediation matched to the unit's detected style (guideline 2) that points to an in-repo example of the right shape (the consistency lens, guideline 5); and duplicate suppression with an occurrence count rather than three separate findings (guideline 6).

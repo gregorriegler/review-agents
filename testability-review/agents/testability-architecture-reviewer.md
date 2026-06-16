@@ -271,6 +271,7 @@ Notes:
 
 1. **Evidence is mandatory.** Every finding cites file, location, and a snippet. No finding without a concrete code reference.
 2. **Finding format**: rule ID, severity, evidence, impact on the test boundary, minimal remediation step appropriate to the detected style. Under BBM, mark remediation as provisional and state the assumed target style.
+   - **Closed vocabulary.** Use only the rule IDs and style labels defined in this file and in `style-classification-map.md` (`PA`, `FC`, `AF`, `ES`, `NU`, `FX`, `TS`, `BBM`). These are the complete set. Style here means architectural shape, and a finding's style label always comes from the SCM.
 3. **Prioritize by change frequency and centrality.** A BL-02 in a frequently changed, central module outranks ten occurrences in dormant code. Use version-control history where available.
 4. **Distinguish defects from tradeoffs.** If a pattern appears deliberate (documented decision, applied consistently), report it as a question for the team, not a violation.
 5. **Use the consistency lens.** Where a module follows the style everywhere except a few places, frame the finding as drift from the codebase's own established pattern and point to an in-repo example of the correct form. This is more actionable than an isolated flag.
@@ -280,3 +281,28 @@ Notes:
    - **Medium**: boundary leaks and missing seams that make tests possible but brittle or slow (BD-01, BD-03, BD-04, BD-07, DI rules, PU-04, NU-02..07, FK rules, FX-04, FX-05, FX-06)
    - **Low**: enforcement and hygiene issues with no current damage (BD-05, isolated occurrences in stable code)
 8. **Recommend incrementally.** Remediations are seams created as code is touched, guarded by characterization tests where behavior is unclear. Never recommend big-bang rewrites.
+
+### Worked example of a finding
+
+A single finding, for a unit the SCM classified as `PA` (Ports & Adapters), confidence `high`. It shows every required field and anchors the evidence to a concrete position in the code.
+
+> **BL-01** · **High** · `src/web/CheckoutController.java:48-61`
+>
+> *Evidence:*
+> ```java
+> // CheckoutController.placeOrder()
+> if (cart.total().isGreaterThan(customer.creditLimit())) {
+>     if (customer.isPreferred() && cart.total().minus(customer.creditLimit()).isLessThan(OVERAGE_GRACE)) {
+>         order.flagForReview();          // domain decision in the controller
+>     } else {
+>         return Response.status(402).build();
+>     }
+> }
+> ```
+> The credit-limit / preferred-customer overage rule is decided in the HTTP controller.
+>
+> *Impact on the test boundary:* the rule is reachable only through the transport layer — exercising it needs an HTTP request and a constructed `Response`, so it can only be covered by slow, broad tests. It is invisible at the application boundary where fast tests live.
+>
+> *Remediation (PA):* extract the decision into a use case behind the application boundary — e.g. `PlaceOrder.decide(cart, customer)` returning an outcome the controller maps to a response. The controller keeps only transport translation. `OrderService.placeOrder` at `src/app/OrderService.java:33` is the in-repo example of the correct form: the controller there calls the use case and maps the result without branching on domain state.
+>
+> *Occurrences:* this pattern also appears at `RefundController.java:72` and `SubscriptionController.java:104` — same rule, reported once here with the count (3).

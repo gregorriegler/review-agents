@@ -56,19 +56,19 @@ Lead the report with High findings. A reviewer that flags everything at one leve
 
 ## Output format
 
-Group findings by file, and within each file order them by severity, High first. Each bullet leads with a severity tag and a smell key, says in 1-2 sentences what's wrong, and **quotes the offending code verbatim** — an inline `code span` for a line or two, a fenced block for more. No finding without a snippet a reader can locate in the file; a paraphrase is not evidence.
+Lead with a short **Summary**, then the findings grouped by file. Within each file order findings by severity, High first. Each bullet leads with a severity tag and a smell key, says in 1-2 sentences what's wrong, references the location as `file:line`, and **quotes the offending code verbatim** — an inline `code span` for a line or two, a fenced block for more. No finding without a snippet a reader can locate in the file; a paraphrase is not evidence.
 
 ````
+### Summary
+Lead with the High findings and any cross-cutting theme. Omit if all findings are file-specific and low-severity.
+
 **`path/to/file.ext`**
-- **[High]** `line 78` — **SMELL-ABSTRACTION-LEAKY**: callers must flip internal state before use. `if (!initialized) throw new Error("call init() first")`
-- **[Medium]** `line 42` — **SMELL-ABSTRACTION-PASSTHROUGH**: same vocabulary on both sides, hides nothing. `saveRecord(r) { return this.db.save(r) }`
-- **[Low]** `line 95-110` — **SMELL-ABSTRACTION-SWISS-CHEESE**: behavior steered by flags rather than distinct methods.
+- **[High]** `path/to/file.ext:78` — **SMELL-ABSTRACTION-LEAKY**: callers must flip internal state before use. `if (!initialized) throw new Error("call init() first")`
+- **[Medium]** `path/to/file.ext:42` — **SMELL-ABSTRACTION-PASSTHROUGH**: same vocabulary on both sides, hides nothing. `saveRecord(r) { return this.db.save(r) }`
+- **[Low]** `path/to/file.ext:95-110` — **SMELL-ABSTRACTION-SWISS-CHEESE**: behavior steered by flags rather than distinct methods.
     ```
     render(data, isPreview, showHeader, compact, raw, withFooter)
     ```
-
-### Summary
-Lead with the High findings and any cross-cutting theme. Omit if all findings are file-specific and low-severity.
 ````
 
 If the abstractions are clean, say so briefly. Do not pad the output.

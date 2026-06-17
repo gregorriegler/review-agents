@@ -69,9 +69,16 @@ assumed style for the remediation.
    page object vs a helper function, a builder class vs a factory function). Never
    tell a functions-only suite to "extract a class."
 3. **Group findings by file**, tagged with the cluster's TSM label so the reader
-   sees the context the smell was read in.
-4. **Prioritize by change frequency and centrality.** A smell in a hot, central
-   test outranks ten in dormant tests. Use version-control history where available.
+   sees the context the smell was read in, and order findings within each file by
+   severity, High first.
+4. **Severity then reach.** Tag each finding **[High] / [Medium] / [Low]**: High =
+   the smell lets the test pass while behavior is broken or hides a real defect
+   (`SMELL-over-mock` that voids the assertion, `SMELL-tautology`,
+   `SMELL-missing-assert`, `SMELL-mock-data`); Medium = real maintainability or
+   readability cost (`SMELL-off-idiom-construction`, `SMELL-verbose`,
+   `SMELL-flow-control`); Low = cosmetic (naming, AAA comments). Within a severity,
+   prioritize by change frequency and centrality — a smell in a hot, central test
+   outranks ten in dormant tests. Use version-control history where available.
 5. **Use the consistency lens.** Where a cluster follows its idiom everywhere
    except a few places, frame the finding as drift from the suite's own
    established pattern and point to an in-repo example of the correct form.
@@ -89,15 +96,16 @@ assumed style for the remediation.
 
 ## Output format
 
-Group findings by file. Each bullet references a specific line and smell key.
-Keep each bullet to 1–2 sentences.
+Lead with a short **Summary**, then findings grouped by file. Each bullet leads
+with a severity tag, references the location as `file:line`, and names the smell
+key. Keep each bullet to 1–2 sentences.
 
 ```
-**`path/to/test_file.ext`**  — cluster: BU · EXPECT · sociable · functional · factory-fn
-- `line 42` — **SMELL-should**: Rephrase as a fact describing what the system does.
-- `line 58` — **SMELL-over-mock**: Mocking `FooCalculator` (in-memory collaborator). Use the real implementation.
-- `line 73-80` — **SMELL-flow-control**: Contains a for-loop. Extract into a parameterized test.
-
 ### Summary
 (Cross-cutting themes, if any. Omit if all findings are file-specific.)
+
+**`path/to/test_file.ext`**  — cluster: BU · EXPECT · sociable · functional · factory-fn
+- **[High]** `path/to/test_file.ext:58` — **SMELL-over-mock**: Mocking `FooCalculator` (in-memory collaborator). Use the real implementation.
+- **[Medium]** `path/to/test_file.ext:73-80` — **SMELL-flow-control**: Contains a for-loop. Extract into a parameterized test.
+- **[Low]** `path/to/test_file.ext:42` — **SMELL-should**: Rephrase as a fact describing what the system does.
 ```

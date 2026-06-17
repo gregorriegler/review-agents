@@ -133,8 +133,7 @@ When both S and D are high:
 3. **Severity** is the `S · D` magnitude, reported as a band so findings can be
    ordered at a glance. Always report the numeric `S · D` too, so findings sort
    continuously within a band (the bands are just a scanning aid):
-   - **Critical** — `S · D ≳ 0.6` (both axes high to very high).
-   - **High** — `S · D ≈ 0.35–0.6`.
+   - **High** — `S · D ≳ 0.35` (both axes high to very high).
    - **Medium** — `S · D ≈ 0.15–0.35`.
    - **Low** — `S · D ≲ 0.15`.
    A both-low (weak + close) pair is never a finding.
@@ -177,7 +176,7 @@ Each finding follows this template:
 
 Worked example:
 
-> ### Critical — `OrderService` reads `Inventory`'s table directly  ·  S·D = 0.81
+> ### High — `OrderService` reads `Inventory`'s table directly  ·  S·D = 0.81
 > - **Pieces:** `OrderService.reserve()` @ `order/service.py:142`  ↔  `stock_levels` table owned by `inventory/`
 > - **S = 0.9 (intrusive):** runs raw SQL against `inventory.stock_levels`, depending on column names and the row-locking scheme — private implementation details, not a published interface.
 > - **D = 0.9 (different service, synchronous):** the two are separately deployable services and the read is a blocking call, coupling their runtime lifecycles.
